@@ -61,7 +61,7 @@ public class EmployeeBook {
         }
     }
 
-    public void printEmployeesNames(Employee[] employees) {
+    public void printEmployeesNames() {
         for (int i = 0; i < employees.length; i++) {
             if (Objects.nonNull(employees[i])) {
                 System.out.printf("%s %s %s %n", employees[i].getLastName(), employees[i].getFirstName(),
@@ -70,9 +70,7 @@ public class EmployeeBook {
         }
     }
 
-    public void printEmployeesNames() {
-        printEmployeesNames(employees);
-    }
+
 
     public double findAverageSalaryByDepartment(String department) {
         return findAverageSalary(findEmployeesByDepartment(department));

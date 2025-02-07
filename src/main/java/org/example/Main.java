@@ -1,3 +1,5 @@
+package org.example;
+
 import org.example.Employee;
 import org.example.EmployeeBook;
 
@@ -67,7 +69,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Список всех сотрудников отдела \"2\"");
-        employeeBook.printEmployeesNames(employeeBook.findEmployeesByDepartment("2"));
+        employeeBook.printEmployeesNames();
         System.out.println();
 
         System.out.println("Все сотрудники с зарплатой меньше 30_000:");
