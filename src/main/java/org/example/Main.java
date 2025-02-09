@@ -1,8 +1,5 @@
 package org.example;
 
-import org.example.Employee;
-import org.example.EmployeeBook;
-
 public class Main {
     public static void main(String[] args) {
         EmployeeBook employeeBook = new EmployeeBook();
@@ -55,21 +52,21 @@ public class Main {
         System.out.println();
 
         System.out.printf("Сумма затрат на зарплату по отделу \"1\" %d %n",
-                employeeBook.calculateSalarySum(employeeBook.findEmployeesByDepartment("1")));
+                employeeBook.calculateSalarySumByDep("1"));
         System.out.println();
 
         System.out.printf("Средняя зарплата по отделу \"1\" %.0f %n",
                 employeeBook.findAverageSalaryByDepartment("1"));
         System.out.println();
 
-        employeeBook.printEmployees(employeeBook.findEmployeesByDepartment("2"));
+        employeeBook.printEmployeesByDep("2");
         System.out.println("Индексируем зарплату сотрудников отдела \"2\" на 100%");
-        employeeBook.indexSalary(employeeBook.findEmployeesByDepartment("2"), 100);
-        employeeBook.printEmployees(employeeBook.findEmployeesByDepartment("2"));
+        employeeBook.indexSalary("2", 100);
+        employeeBook.printEmployeesByDep("2");
         System.out.println();
 
         System.out.println("Список всех сотрудников отдела \"2\"");
-        employeeBook.printEmployeesNames();
+        employeeBook.printEmployeesNamesByDep("2");
         System.out.println();
 
         System.out.println("Все сотрудники с зарплатой меньше 30_000:");

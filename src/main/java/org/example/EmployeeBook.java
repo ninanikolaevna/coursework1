@@ -1,7 +1,5 @@
 package org.example;
 
-import org.example.Employee;
-
 import java.util.Objects;
 
 public class EmployeeBook {
@@ -19,7 +17,7 @@ public class EmployeeBook {
 
     public boolean removeEmployee(int id) {
         int employeeIndex = findEmployeeIndexByID(id);
-        if (employeeIndex>=0) {
+        if (employeeIndex >= 0) {
             employees[employeeIndex] = null;
             return true;
         }
@@ -61,6 +59,15 @@ public class EmployeeBook {
         }
     }
 
+    public void printEmployeesNamesByDep(String department) {
+        for (int i = 0; i < employees.length; i++) {
+            if (Objects.nonNull(employees[i]) && employees[i].getDepartment().equals(department)) {
+                System.out.printf("%s %s %s %n", employees[i].getLastName(), employees[i].getFirstName(),
+                        employees[i].getMiddleName());
+            }
+        }
+    }
+
     public void printEmployeesNames() {
         for (int i = 0; i < employees.length; i++) {
             if (Objects.nonNull(employees[i])) {
@@ -70,46 +77,81 @@ public class EmployeeBook {
         }
     }
 
-
-
     public double findAverageSalaryByDepartment(String department) {
-        return findAverageSalary(findEmployeesByDepartment(department));
-    }
-
-    public Employee[] findEmployeesByDepartment(String department) {
-        Employee[] byDepartment = new Employee[employees.length];
-        int j = 0;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) continue;
-            if (Objects.equals(employees[i].getDepartment(), department)) {
-                byDepartment[j++] = employees[i];
-            }
-        }
-        return byDepartment;
+        return Math.round(((double) calculateSalarySumByDep(department) / findEmployeeCountByDep(department)) * 100.0) / 100.0;
     }
 
     public Object findEmployeeWithMinSalarybyDepartment(String department) {
-        Employee[] employeesByDepartment = findEmployeesByDepartment(department);
-        return findEmployeeWithMinSalary(employeesByDepartment);
+        int minSalary = Integer.MAX_VALUE;
+        Employee employeeWithMinSalary = null;
+        for (int i = 0; i < employees.length; i++) {
+            if (Objects.nonNull(employees[i]) &&
+                    employees[i].getDepartment().equals(department) &&
+                    employees[i].getSalary() <= minSalary) {
+                minSalary = employees[i].getSalary();
+                employeeWithMinSalary = employees[i];
+            }
+        }
+        return employeeWithMinSalary;
     }
 
     public Object findEmployeeWithMaxSalarybyDepartment(String department) {
-        Employee[] employeesByDepartment = findEmployeesByDepartment(department);
-        return findEmployeeWithMaxSalary(employeesByDepartment);
+        int maxSalary = Integer.MIN_VALUE;
+        Employee employeeWithMaxSalary = null;
+        for (int i = 0; i < employees.length; i++) {
+            if (Objects.nonNull(employees[i]) &&
+                    employees[i].getDepartment().equals(department) &&
+                    employees[i].getSalary() >= maxSalary) {
+                maxSalary = employees[i].getSalary();
+                employeeWithMaxSalary = employees[i];
+            }
+        }
+        return employeeWithMaxSalary;
     }
 
-    public void printEmployees(Employee[] employees) {
+    public Object findEmployeeWithMinSalary() {
+        int minSalary = Integer.MAX_VALUE;
+        Employee employeeWithMinSalary = null;
+        for (int i = 0; i < employees.length; i++) {
+            if (Objects.nonNull(employees[i]) &&
+                    employees[i].getSalary() <= minSalary) {
+                minSalary = employees[i].getSalary();
+                employeeWithMinSalary = employees[i];
+            }
+        }
+        return employeeWithMinSalary;
+    }
+
+    public Object findEmployeeWithMaxSalary() {
+        int maxSalary = Integer.MIN_VALUE;
+        Employee employeeWithMaxSalary = null;
+        for (int i = 0; i < employees.length; i++) {
+            if (Objects.nonNull(employees[i]) &&
+                   employees[i].getSalary() >= maxSalary) {
+                maxSalary = employees[i].getSalary();
+                employeeWithMaxSalary = employees[i];
+            }
+        }
+        return employeeWithMaxSalary;
+    }
+
+    public void printEmployees() {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) continue;
             System.out.println(employees[i]);
         }
     }
 
-    public void printEmployees() {
-        printEmployees(employees);
+    public void printEmployeesByDep(String department) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] == null) continue;
+            if (employees[i].getDepartment().equals(department)) {
+                System.out.println(employees[i]);
+            }
+        }
     }
 
-    public int calculateSalarySum(Employee[] employees) {
+    public int calculateSalarySum() {
         int sum = 0;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) continue;
@@ -118,49 +160,29 @@ public class EmployeeBook {
         return sum;
     }
 
-    public int calculateSalarySum() {
-        return calculateSalarySum(employees);
-    }
-
-    public Object findEmployeeWithMinSalary(Employee[] employees) {
-        int minSalary = Integer.MAX_VALUE;
-        Employee employeeWithMinSalary = null;
+    public int calculateSalarySumByDep(String department) {
+        int sum = 0;
         for (int i = 0; i < employees.length; i++) {
-            if (Objects.nonNull(employees[i]) && employees[i].getSalary() <= minSalary) {
-                minSalary = employees[i].getSalary();
-                employeeWithMinSalary = employees[i];
+            if (employees[i] == null) continue;
+            if (employees[i].getDepartment().equals(department)) {
+                sum += employees[i].getSalary();
             }
         }
-        return employeeWithMinSalary;
-    }
-
-    public Object findEmployeeWithMinSalary() {
-        return findEmployeeWithMinSalary(employees);
-    }
-
-    public Object findEmployeeWithMaxSalary(Employee[] employees) {
-        int maxSalary = Integer.MIN_VALUE;
-        Employee employeeWithMaxSalary = null;
-        for (int i = 0; i < employees.length; i++) {
-            if (Objects.nonNull(employees[i]) && employees[i].getSalary() >= maxSalary) {
-                maxSalary = employees[i].getSalary();
-                employeeWithMaxSalary = employees[i];
-            }
-        }
-        return employeeWithMaxSalary;
-    }
-
-    public Object findEmployeeWithMaxSalary() {
-        return findEmployeeWithMaxSalary(employees);
-    }
-
-    public double findAverageSalary(Employee[] employees) {
-        double averageSalary = Math.round(((double) calculateSalarySum(employees) / findEmployeeCount()) * 100.0) / 100.0;
-        return averageSalary;
+        return sum;
     }
 
     public double findAverageSalary() {
-        return findAverageSalary(employees);
+        return Math.round(((double) calculateSalarySum() / findEmployeeCount()) * 100.0) / 100.0;
+    }
+
+    public int findEmployeeCountByDep(String department) {
+        int counter = 0;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && Objects.equals(employees[i].getDepartment(), department)) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     public int findEmployeeCount() {
@@ -173,17 +195,24 @@ public class EmployeeBook {
         return counter;
     }
 
-    public void indexSalary(Employee[] employees, double percent) {
+    public void indexSalary(String department, double percent) {
+        percent = Math.round(percent / 100.0 * 100.0) / 100.0;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] == null) continue;
+            if (employees[i].getDepartment().equals(department)) {
+                employees[i].setSalary(
+                        (int) (employees[i].getSalary() + employees[i].getSalary() * percent));
+            }
+        }
+    }
+
+    public void indexSalary(double percent) {
         percent = Math.round(percent / 100.0 * 100.0) / 100.0;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) continue;
             employees[i].setSalary(
                     (int) (employees[i].getSalary() + employees[i].getSalary() * percent));
         }
-    }
-
-    public void indexSalary(double percent) {
-        indexSalary(employees, percent);
     }
 
     public Object findEmployeeByID(int id) {
